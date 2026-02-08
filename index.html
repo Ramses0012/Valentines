@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>One Important Question 💌</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #b5173a;
+      font-size: 40px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+      margin: 10px;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #yesButtons {
+      position: relative;
+      height: 200px;
+    }
+
+    #yesButtons button {
+      position: absolute;
+    }
+
+    #finalMessage {
+      font-size: 32px;
+      color: #b5173a;
+      margin-top: 30px;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 6s linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(-10vh) scale(1.3);
+        opacity: 0.9;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="text">I have an important question to ask you…</h1>
+
+    <button id="btn">What question?</button>
+
+    <div id="yesButtons" class="hidden">
+      <button id="yes1">Yes</button>
+      <button id="yes2">Yes</button>
+    </div>
+
+    <div id="finalMessage" class="hidden">
+      ❤️<br>
+      I knew you were going to say yes, beautiful ❤️
+    </div>
+  </div>
+
+  <script>
+    const text = document.getElementById("text");
+    const btn = document.getElementById("btn");
+    const yesButtons = document.getElementById("yesButtons");
+    const finalMessage = document.getElementById("finalMessage");
+    const yes1 = document.getElementById("yes1");
+    const yes2 = document.getElementById("yes2");
+
+    let step = 0;
+    let yesClicks = 0;
+
+    btn.addEventListener("click", () => {
+      step++;
+
+      if (step === 1) {
+        text.innerText = "Are you sure you want to know the question?";
+        btn.innerText = "Yes";
+      }
+
+      else if (step === 2) {
+        text.innerText = "Are you REALLY REALLY sure?";
+        btn.innerText = "Yes";
+      }
+
+      else if (step === 3) {
+        text.innerText = "Ok… here it goes…";
+        btn.classList.add("hidden");
+
+        setTimeout(() => {
+          text.innerText = "Would you like to be my Valentine?";
+          yesButtons.classList.remove("hidden");
+          positionButtons();
+        }, 5000);
+      }
+    });
+
+    function positionButtons() {
+      yes1.style.top = "50px";
+      yes1.style.left = "150px";
+
+      yes2.style.top = "120px";
+      yes2.style.left = "300px";
+    }
+
+    function moveButton(btn) {
+      btn.style.left = Math.random() * 400 + "px";
+      btn.style.top = Math.random() * 150 + "px";
+    }
+
+    [yes1, yes2].forEach(btn => {
+      btn.addEventListener("click", () => {
+        yesClicks++;
+
+        if (yesClicks >= 3) {
+          yesButtons.classList.add("hidden");
+          finalMessage.classList.remove("hidden");
+          startHearts();
+        } else {
+          moveButton(btn);
+        }
+      });
+    });
+
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
